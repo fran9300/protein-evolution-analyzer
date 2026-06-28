@@ -1,5 +1,7 @@
 from Bio import SeqIO
 
+from report import generate_report
+
 from physicochemical import (
     calculate_molecular_weight,
     calculate_isoelectric_point,
@@ -75,4 +77,12 @@ hydro = calculate_hydrophobicity(sequence)
 print(
     "Hydrophobicity (GRAVY):",
     round(hydro, 3)
+)
+
+generate_report(
+    protein.id,
+    length,
+    weight,
+    pI,
+    hydro
 )
