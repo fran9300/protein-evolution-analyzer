@@ -1,0 +1,55 @@
+# =====================
+# Python
+# =====================
+
+# Virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+
+# =====================
+# PyCharm / IDE
+# =====================
+
+.idea/
+
+# VS Code (por si algún día lo abrís ahí)
+.vscode/
+
+
+# =====================
+# Environment variables
+# =====================
+
+.env
+
+
+# =====================
+# Generated files
+# =====================
+
+# Analysis outputs
+results/
+
+# Logs
+*.log
+
+
+# =====================
+# OS files
+# =====================
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Mac
+.DS_Store
