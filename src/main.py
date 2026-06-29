@@ -7,11 +7,12 @@ from sequence_analysis import (
 from physicochemical import (
     calculate_molecular_weight,
     calculate_isoelectric_point,
-    calculate_hydrophobicity
+    calculate_hydrophobicity,
+    calculate_hydrophobicity_profile
 )
 
 from report import generate_report
-from visualization import plot_amino_acid_composition
+from visualization import plot_amino_acid_composition, plot_hydrophobicity_profile
 from json_report import generate_json_report
 
 from validation import (
@@ -137,7 +138,9 @@ def main():
 
     hydro = calculate_hydrophobicity(clean_sequence)
 
-
+    hydro_profile = calculate_hydrophobicity_profile(
+        clean_sequence
+    )
 
     print("Physicochemical properties:")
 
@@ -158,6 +161,14 @@ def main():
     print(
         "Hydrophobicity (GRAVY):",
         round(hydro,3)
+    )
+
+    print(
+        "Hydrophobicity profile:"
+    )
+
+    print(
+        hydro_profile
     )
 
 
@@ -195,6 +206,10 @@ def main():
 
     plot_amino_acid_composition(
         composition
+    )
+
+    plot_hydrophobicity_profile(
+        hydro_profile
     )
 
 

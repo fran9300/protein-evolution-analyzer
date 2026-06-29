@@ -38,3 +38,32 @@ def calculate_hydrophobicity(sequence: str) -> float:
     analysis = ProteinAnalysis(sequence)
 
     return analysis.gravy()
+
+
+def calculate_hydrophobicity_profile(sequence: str) -> list:
+    """
+    Calculates hydrophobicity value
+    for each amino acid position.
+    """
+
+
+    hydrophobicity_profile = []
+
+
+    for amino_acid in sequence:
+
+
+        analysis = ProteinAnalysis(
+            amino_acid
+        )
+
+
+        value = analysis.gravy()
+
+
+        hydrophobicity_profile.append(
+            value
+        )
+
+
+    return hydrophobicity_profile
