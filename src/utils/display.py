@@ -91,7 +91,11 @@ def print_physicochemical_results(
         pI,
         hydro,
         hydro_profile,
-        window_profile
+        window_profile,
+        instability_index,
+        extinction_coefficient,
+        secondary_structure,
+        aliphatic_index
 ):
 
     print()
@@ -131,6 +135,26 @@ def print_physicochemical_results(
         "Sliding window profile calculated:",
         len(window_profile),
         "values"
+    )
+
+    print(
+        "instability_index:",
+        round(instability_index,2)
+    )
+
+    print(
+        "extinction_coefficient:",
+        extinction_coefficient,
+    )
+
+    print(
+        "secondary_structure:",
+        secondary_structure,
+    )
+
+    print(
+        "aliphatic_index:",
+        round(aliphatic_index,2)
     )
 
 

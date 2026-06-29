@@ -104,3 +104,72 @@ def calculate_sliding_window_hydrophobicity(
 
 
     return values
+
+
+def calculate_instability_index(sequence: str) -> float:
+
+    analysis = ProteinAnalysis(sequence)
+
+    return analysis.instability_index()
+
+
+
+def calculate_extinction_coefficient(sequence: str) -> dict:
+
+    analysis = ProteinAnalysis(sequence)
+
+    reduced, oxidized = analysis.molar_extinction_coefficient()
+
+    return {
+
+        "reduced": reduced,
+
+        "oxidized": oxidized
+
+    }
+
+
+def calculate_secondary_structure(sequence: str) -> dict:
+
+    analysis = ProteinAnalysis(sequence)
+
+    helix, turn, sheet = (
+        analysis.secondary_structure_fraction()
+    )
+
+
+    return {
+
+        "alpha_helix": helix,
+
+        "turn": turn,
+
+        "beta_sheet": sheet
+
+    }
+
+
+    
+def calculate_aliphatic_index(sequence: str) -> float:
+
+    analysis = ProteinAnalysis(sequence)
+
+    composition = analysis.count_amino_acids()
+
+
+    length = len(sequence)
+
+
+    alanine = composition["A"] / length
+    valine = composition["V"] / length
+    isoleucine = composition["I"] / length
+    leucine = composition["L"] / length
+
+
+    return (
+        alanine
+        +
+        (2.9 * valine)
+        +
+        (3.9 * (isoleucine + leucine))
+    ) * 100

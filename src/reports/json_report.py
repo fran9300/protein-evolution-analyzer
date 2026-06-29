@@ -17,7 +17,11 @@ def generate_json_report(
         unknown_percentage,
         molecular_weight,
         isoelectric_point,
-        hydrophobicity
+        hydrophobicity,
+        instability_index,
+        extinction_coefficient,
+        secondary_structure,
+        aliphatic_index
 ):
 
     """
@@ -63,7 +67,15 @@ def generate_json_report(
 
             "isoelectric_point": isoelectric_point,
 
-            "hydrophobicity": hydrophobicity
+            "hydrophobicity": hydrophobicity,
+
+            "instability_index": instability_index,
+
+            "extinction_coefficient": extinction_coefficient,
+
+            "secondary_structure": secondary_structure,
+
+            "aliphatic_index": aliphatic_index
 
         }
 

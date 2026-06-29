@@ -8,7 +8,11 @@ from src.analysis.physicochemical import (
     calculate_isoelectric_point,
     calculate_hydrophobicity,
     calculate_hydrophobicity_profile,
-    calculate_sliding_window_hydrophobicity
+    calculate_sliding_window_hydrophobicity,
+    calculate_instability_index,
+    calculate_extinction_coefficient,
+    calculate_secondary_structure,
+    calculate_aliphatic_index
 )
 
 from src.models.protein_result import ProteinResult
@@ -45,6 +49,22 @@ def analyze_protein(
         sequence
     )
 
+    instability_index = calculate_instability_index(
+        sequence
+    )
+
+    extinction_coefficient = calculate_extinction_coefficient(
+        sequence
+    )
+
+    secondary_structure = calculate_secondary_structure(
+        sequence
+    )
+
+    aliphatic_index = calculate_aliphatic_index(
+        sequence
+    )
+
 
     hydro_profile = calculate_hydrophobicity_profile(
         sequence
@@ -69,6 +89,14 @@ def analyze_protein(
         pI=pI,
 
         hydrophobicity=hydrophobicity,
+
+        instability_index=instability_index,
+
+        extinction_coefficient=extinction_coefficient,
+
+        secondary_structure=secondary_structure,
+
+        aliphatic_index=aliphatic_index,
 
         hydro_profile=hydro_profile,
 

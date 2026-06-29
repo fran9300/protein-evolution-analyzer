@@ -15,7 +15,11 @@ def generate_report(
         unknown_percentage,
         molecular_weight,
         isoelectric_point,
-        hydrophobicity
+        hydrophobicity,
+        instability_index,
+        extinction_coefficient,
+        secondary_structure,
+        aliphatic_index
 ):
 
     """
@@ -58,7 +62,15 @@ def generate_report(
 
             "Isoelectric Point",
 
-            "Hydrophobicity"
+            "Hydrophobicity",
+
+            "instability_index",
+
+            "extinction_coefficient",
+
+            "secondary_structure",
+
+            "aliphatic_index"
 
         ])
 
@@ -78,7 +90,15 @@ def generate_report(
 
             isoelectric_point,
 
-            hydrophobicity
+            hydrophobicity,
+
+            instability_index,
+
+            extinction_coefficient,
+
+            secondary_structure,
+
+            aliphatic_index
 
         ])
 

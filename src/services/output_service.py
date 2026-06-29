@@ -44,7 +44,15 @@ def generate_outputs(
 
         results.pI,
 
-        results.hydrophobicity
+        results.hydrophobicity,
+
+        results.instability_index,
+
+        results.extinction_coefficient,
+
+        results.secondary_structure,
+
+        results.aliphatic_index
 
     )
 
@@ -66,7 +74,15 @@ def generate_outputs(
 
         results.pI,
 
-        results.hydrophobicity
+        results.hydrophobicity,
+
+        results.instability_index,
+
+        results.extinction_coefficient,
+
+        results.secondary_structure,
+
+        results.aliphatic_index
 
     )
 

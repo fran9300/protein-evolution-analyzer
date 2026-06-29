@@ -95,7 +95,15 @@ def main():
 
         results.hydro_profile,
 
-        results.window_profile
+        results.window_profile,
+
+        results.instability_index,
+
+        results.extinction_coefficient,
+
+        results.secondary_structure,
+
+        results.aliphatic_index
 
     )
 
