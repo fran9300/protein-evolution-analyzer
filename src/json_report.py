@@ -8,6 +8,8 @@ def generate_json_report(
         protein_id,
         length,
         composition,
+        unknown_residues,
+        unknown_percentage,
         molecular_weight,
         isoelectric_point,
         hydrophobicity
@@ -27,12 +29,24 @@ def generate_json_report(
 
     report = {
 
+
         "protein": protein_id,
+
+
+        "sequence_quality": {
+
+            "unknown_residues": unknown_residues,
+
+            "unknown_percentage": unknown_percentage
+
+        },
 
 
         "sequence_analysis": {
 
+
             "length": length,
+
 
             "amino_acid_composition": composition
 
@@ -41,9 +55,12 @@ def generate_json_report(
 
         "physicochemical_properties": {
 
+
             "molecular_weight": molecular_weight,
 
+
             "isoelectric_point": isoelectric_point,
+
 
             "hydrophobicity": hydrophobicity
 
@@ -59,6 +76,7 @@ def generate_json_report(
     )
 
 
+
     with open(
         output_file,
         "w"
@@ -70,6 +88,7 @@ def generate_json_report(
             file,
             indent=4
         )
+
 
 
     print(

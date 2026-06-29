@@ -167,23 +167,25 @@ def main():
 
     # Generate outputs
 
-
     generate_report(
 
         protein.id,
         length,
+        unknown,
+        round(unknown_percentage, 2),
         weight,
         pI,
         hydro
 
     )
 
-
     generate_json_report(
 
         protein.id,
         length,
         composition,
+        unknown,
+        round(unknown_percentage, 2),
         weight,
         pI,
         hydro
