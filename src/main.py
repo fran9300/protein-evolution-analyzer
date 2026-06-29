@@ -1,12 +1,28 @@
 from Bio import SeqIO
 
-from sequence_analysis import *
-from physicochemical import *
-from report import *
-from visualization import *
+from sequence_analysis import (
+    calculate_length,
+    calculate_amino_acid_composition
+)
+from physicochemical import (
+    calculate_molecular_weight,
+    calculate_isoelectric_point,
+    calculate_hydrophobicity
+)
+
+from report import generate_report
+from visualization import plot_amino_acid_composition
 from json_report import generate_json_report
 
+from validation import (
+    validate_sequence,
+    count_unknown_residues,
+    calculate_unknown_percentage,
+    remove_unknown_residues
+)
+
 from config import DATA_DIR
+
 
 
 def main():
@@ -23,16 +39,133 @@ def main():
     sequence = str(protein.seq)
 
 
-    length = calculate_length(sequence)
+    print("=" * 40)
+    print("Protein Analysis Report")
+    print("=" * 40)
+
+
+    print(
+        "Protein ID:",
+        protein.id
+    )
+
+
+    print(
+        "Sequence length:",
+        len(sequence),
+        "aa"
+    )
+
+
+    print()
+
+
+
+    # Validation
+
+    if not validate_sequence(sequence):
+
+        raise ValueError(
+            "Protein sequence is invalid"
+        )
+
+
+    unknown = count_unknown_residues(sequence)
+
+    unknown_percentage = calculate_unknown_percentage(sequence)
+
+
+    print("Sequence quality:")
+
+    print(
+        "Unknown residues:",
+        unknown
+    )
+
+
+    print(
+        "Unknown percentage:",
+        round(unknown_percentage, 2),
+        "%"
+    )
+
+
+    print()
+
+
+
+    # Clean sequence for physicochemical analysis
+
+    clean_sequence = remove_unknown_residues(sequence)
+
+
+
+    # Sequence analysis
+
+    length = calculate_length(clean_sequence)
 
     composition = calculate_amino_acid_composition(sequence)
 
 
-    weight = calculate_molecular_weight(sequence)
+    print("Sequence analysis:")
 
-    pI = calculate_isoelectric_point(sequence)
+    print(
+        "Length:",
+        length,
+        "aa"
+    )
 
-    hydro = calculate_hydrophobicity(sequence)
+
+    print(
+        "Amino acid composition:"
+    )
+
+    print(
+        composition
+    )
+
+
+    print()
+
+
+
+    # Physicochemical properties
+
+    weight = calculate_molecular_weight(clean_sequence)
+
+    pI = calculate_isoelectric_point(clean_sequence)
+
+    hydro = calculate_hydrophobicity(clean_sequence)
+
+
+
+    print("Physicochemical properties:")
+
+
+    print(
+        "Molecular weight:",
+        round(weight,2),
+        "Da"
+    )
+
+
+    print(
+        "Isoelectric point:",
+        round(pI,2)
+    )
+
+
+    print(
+        "Hydrophobicity (GRAVY):",
+        round(hydro,3)
+    )
+
+
+    print()
+
+
+
+    # Generate outputs
 
 
     generate_report(
@@ -44,6 +177,7 @@ def main():
         hydro
 
     )
+
 
     generate_json_report(
 
@@ -60,6 +194,13 @@ def main():
     plot_amino_acid_composition(
         composition
     )
+
+
+    print()
+
+    print("Analysis completed successfully")
+
+    print("=" * 40)
 
 
 
