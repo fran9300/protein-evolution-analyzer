@@ -1,11 +1,8 @@
-from Bio import SeqIO
-
-from src.config import FASTA_PATH
-from src.constants import FASTA_FORMAT
-
 from src.services.protein_service import analyze_sequence
 from src.services.output_service import generate_outputs
+from src.services.fasta_service import load_protein_sequence
 
+from src.exceptions import ProteinAnalysisError
 
 from src.utils.display import (
     print_header,
@@ -21,10 +18,7 @@ from src.utils.display import (
 def main():
 
 
-    protein = SeqIO.read(
-        FASTA_PATH,
-        FASTA_FORMAT
-    )
+    protein = load_protein_sequence()
 
 
     sequence = str(protein.seq)
@@ -102,4 +96,14 @@ def main():
 
 if __name__ == "__main__":
 
-    main()
+
+    try:
+
+        main()
+
+
+    except ProteinAnalysisError as error:
+
+        print(
+            f"Analysis error: {error}"
+        )

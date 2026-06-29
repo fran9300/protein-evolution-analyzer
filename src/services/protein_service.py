@@ -11,6 +11,8 @@ from src.constants import HYDROPHOBICITY_WINDOW_SIZE
 
 from src.models.analysis_result import AnalysisResult
 
+from src.exceptions import InvalidSequenceError
+
 
 
 def analyze_sequence(sequence: str):
@@ -18,9 +20,10 @@ def analyze_sequence(sequence: str):
 
     if not validate_sequence(sequence):
 
-        raise ValueError(
+        raise InvalidSequenceError(
             "Invalid protein sequence"
         )
+
 
 
     unknown = count_unknown_residues(
@@ -38,10 +41,12 @@ def analyze_sequence(sequence: str):
     )
 
 
+
     results = analyze_protein(
         clean_sequence,
         HYDROPHOBICITY_WINDOW_SIZE
     )
+
 
 
     return AnalysisResult(
