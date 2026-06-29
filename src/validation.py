@@ -1,4 +1,4 @@
-from constants import STANDARD_AMINO_ACIDS, UNKNOWN_AMINO_ACID
+from src.constants import STANDARD_AMINO_ACIDS, UNKNOWN_AMINO_ACID
 
 
 def validate_sequence(sequence: str) -> bool:
