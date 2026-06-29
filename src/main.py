@@ -1,47 +1,29 @@
 from Bio import SeqIO
 
-from sequence_analysis import (
-    calculate_length,
-    calculate_amino_acid_composition
+from src.config import FASTA_PATH
+from src.constants import FASTA_FORMAT
+
+from src.services.protein_service import analyze_sequence
+from src.services.output_service import generate_outputs
+
+
+from src.utils.display import (
+    print_header,
+    print_protein_info,
+    print_sequence_quality,
+    print_sequence_analysis,
+    print_physicochemical_results,
+    print_success
 )
-
-from physicochemical import (
-    calculate_molecular_weight,
-    calculate_isoelectric_point,
-    calculate_hydrophobicity,
-    calculate_hydrophobicity_profile,
-    calculate_sliding_window_hydrophobicity
-)
-
-from report import generate_report
-
-from visualization import (
-    plot_amino_acid_composition,
-    plot_hydrophobicity_profile,
-    plot_hydrophobicity_comparison
-)
-
-from json_report import generate_json_report
-
-from validation import (
-    validate_sequence,
-    count_unknown_residues,
-    calculate_unknown_percentage,
-    remove_unknown_residues
-)
-
-from config import FASTA_PATH
 
 
 
 def main():
 
-    fasta = FASTA_PATH
-
 
     protein = SeqIO.read(
-        fasta,
-        "fasta"
+        FASTA_PATH,
+        FASTA_FORMAT
     )
 
 
@@ -49,258 +31,72 @@ def main():
 
 
 
-    print("=" * 40)
-    print("Protein Analysis Report")
-    print("=" * 40)
+    print_header()
 
 
-    print(
-        "Protein ID:",
-        protein.id
+    print_protein_info(
+        protein.id,
+        len(sequence)
     )
 
 
-    print(
-        "Sequence length:",
-        len(sequence),
-        "aa"
-    )
 
-
-    print()
-
-
-
-    # =========================
-    # Validation
-    # =========================
-
-
-    if not validate_sequence(sequence):
-
-        raise ValueError(
-            "Protein sequence is invalid"
-        )
-
-
-    unknown = count_unknown_residues(sequence)
-
-    unknown_percentage = calculate_unknown_percentage(sequence)
-
-
-    print("Sequence quality:")
-
-
-    print(
-        "Unknown residues:",
-        unknown
-    )
-
-
-    print(
-        "Unknown percentage:",
-        round(unknown_percentage, 2),
-        "%"
-    )
-
-
-    print()
-
-
-
-    clean_sequence = remove_unknown_residues(sequence)
-
-
-
-    # =========================
-    # Sequence analysis
-    # =========================
-
-
-    length = calculate_length(
-        clean_sequence
-    )
-
-
-    composition = calculate_amino_acid_composition(
+    analysis = analyze_sequence(
         sequence
     )
 
 
-    print("Sequence analysis:")
-
-
-    print(
-        "Length:",
-        length,
-        "aa"
-    )
-
-
-    print(
-        "Amino acid composition:"
-    )
-
-
-    print(
-        composition
-    )
-
-
-    print()
+    results = analysis.protein_result
 
 
 
-    # =========================
-    # Physicochemical properties
-    # =========================
+    print_sequence_quality(
 
+        analysis.unknown,
 
-    weight = calculate_molecular_weight(
-        clean_sequence
-    )
+        analysis.unknown_percentage
 
-
-    pI = calculate_isoelectric_point(
-        clean_sequence
-    )
-
-
-    hydro = calculate_hydrophobicity(
-        clean_sequence
-    )
-
-
-    hydro_profile = calculate_hydrophobicity_profile(
-        clean_sequence
-    )
-
-
-    window_profile = calculate_sliding_window_hydrophobicity(
-        clean_sequence,
-        window_size=20
     )
 
 
 
-    print("Physicochemical properties:")
+    print_sequence_analysis(
 
+        results.length,
 
-    print(
-        "Molecular weight:",
-        round(weight, 2),
-        "Da"
+        results.composition
+
     )
 
 
-    print(
-        "Isoelectric point:",
-        round(pI, 2)
+
+    print_physicochemical_results(
+
+        results.weight,
+
+        results.pI,
+
+        results.hydrophobicity,
+
+        results.hydro_profile,
+
+        results.window_profile
+
     )
 
 
-    print(
-        "Hydrophobicity (GRAVY):",
-        round(hydro, 3)
-    )
 
-
-    print()
-
-
-    print(
-        "Hydrophobicity profile calculated:"
-    )
-
-
-    print(
-        len(hydro_profile),
-        "residue values"
-    )
-
-
-    print(
-        "Sliding window profile calculated:"
-    )
-
-
-    print(
-        len(window_profile),
-        "window values"
-    )
-
-
-    print()
-
-
-
-    # =========================
-    # Reports
-    # =========================
-
-
-    generate_report(
+    generate_outputs(
 
         protein.id,
-        length,
-        unknown,
-        round(unknown_percentage, 2),
-        weight,
-        pI,
-        hydro
+
+        analysis
 
     )
 
 
 
-    generate_json_report(
-
-        protein.id,
-        length,
-        composition,
-        unknown,
-        round(unknown_percentage, 2),
-        weight,
-        pI,
-        hydro
-
-    )
-
-
-
-    # =========================
-    # Visualizations
-    # =========================
-
-
-    plot_amino_acid_composition(
-        composition
-    )
-
-
-    plot_hydrophobicity_profile(
-        window_profile
-    )
-
-
-    plot_hydrophobicity_comparison(
-        hydro_profile,
-        window_profile,
-        window_size=20
-    )
-
-
-
-    print()
-
-
-    print(
-        "Analysis completed successfully"
-    )
-
-
-    print("=" * 40)
-
+    print_success()
 
 
 

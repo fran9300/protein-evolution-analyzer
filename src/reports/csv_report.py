@@ -1,6 +1,6 @@
 import csv
 
-from config import RESULTS_DIR
+from src.config import RESULTS_DIR
 
 
 

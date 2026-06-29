@@ -1,7 +1,7 @@
 import json
 import re
 
-from config import RESULTS_DIR
+from src.config import RESULTS_DIR
 
 
 

@@ -1,10 +1,4 @@
-AMINO_ACIDS = set(
-    "ACDEFGHIKLMNPQRSTVWY"
-)
-
-
-UNKNOWN_AMINO_ACID = "X"
-
+from constants import STANDARD_AMINO_ACIDS, UNKNOWN_AMINO_ACID
 
 
 def validate_sequence(sequence: str) -> bool:
@@ -20,7 +14,7 @@ def validate_sequence(sequence: str) -> bool:
 
     invalid_characters = (
         set(sequence)
-        - AMINO_ACIDS
+        - STANDARD_AMINO_ACIDS
         - {UNKNOWN_AMINO_ACID}
     )
 

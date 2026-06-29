@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 
 from src.config import FIGURES_DIR
+from src.constants import HYDROPHOBICITY_WINDOW_SIZE, FIGURE_WIDTH, FIGURE_HEIGHT
 
 
 def create_output_folder():
@@ -21,7 +22,7 @@ def plot_amino_acid_composition(composition):
     counts = list(composition.values())
 
 
-    plt.figure(figsize=(10,5))
+    plt.figure(figsize=(FIGURE_WIDTH,FIGURE_HEIGHT))
 
 
     plt.bar(
@@ -42,9 +43,13 @@ def plot_amino_acid_composition(composition):
         "Amino Acid Composition"
     )
 
+    output_file = (
+            FIGURES_DIR /
+            "amino_acid_composition.png"
+    )
 
     plt.savefig(
-        "../results/figures/amino_acid_composition.png",
+        output_file,
         dpi=300,
         bbox_inches="tight"
     )
@@ -73,7 +78,7 @@ def plot_hydrophobicity_profile(profile: list):
 
 
     plt.figure(
-        figsize=(10,5)
+        figsize=(FIGURE_WIDTH,FIGURE_HEIGHT)
     )
 
 
@@ -122,7 +127,7 @@ def plot_hydrophobicity_profile(profile: list):
 def plot_hydrophobicity_comparison(
         profile: list,
         window_profile: list,
-        window_size: int = 5
+        window_size: int = HYDROPHOBICITY_WINDOW_SIZE
 ):
 
     """
@@ -139,7 +144,7 @@ def plot_hydrophobicity_comparison(
 
 
     plt.figure(
-        figsize=(10,5)
+        figsize=(FIGURE_WIDTH,FIGURE_HEIGHT)
     )
 
 

@@ -1,5 +1,6 @@
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
+from src.constants import HYDROPHOBICITY_WINDOW_SIZE
 
 
 def calculate_molecular_weight(sequence: str) -> float:
@@ -71,7 +72,7 @@ def calculate_hydrophobicity_profile(sequence: str) -> list:
 
 def calculate_sliding_window_hydrophobicity(
         sequence: str,
-        window_size: int = 20
+        window_size: int = HYDROPHOBICITY_WINDOW_SIZE
 ) -> list:
     """
     Calculates average hydrophobicity
