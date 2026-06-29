@@ -2,7 +2,7 @@ from src.services.protein_service import analyze_sequence
 from src.services.output_service import generate_outputs
 from src.services.fasta_service import load_protein_sequence
 
-from src.exceptions import ProteinAnalysisError
+from src.exceptions import ProteinAnalysisError, InvalidSequenceError
 
 from src.utils.display import (
     print_header,
@@ -33,11 +33,20 @@ def main():
         len(sequence)
     )
 
+    try:
+
+        analysis = analyze_sequence(
+            sequence
+        )
 
 
-    analysis = analyze_sequence(
-        sequence
-    )
+    except InvalidSequenceError as error:
+
+        print(
+            f"Analysis failed: {error}"
+        )
+
+        return
 
 
     results = analysis.protein_result
