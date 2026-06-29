@@ -1,6 +1,8 @@
 import csv
 import os
 
+from src.config import RESULTS_DIR
+
 
 def generate_report(
         protein_id,
@@ -13,10 +15,12 @@ def generate_report(
     Generates a CSV report with protein analysis results.
     """
 
-    os.makedirs("../results", exist_ok=True)
+    RESULTS_DIR.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
-
-    file_path = "../results/protein_report.csv"
+    file_path = RESULTS_DIR / "protein_report.csv"
 
 
     with open(file_path, "w", newline="") as file:

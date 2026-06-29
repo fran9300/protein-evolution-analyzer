@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
-import os
+
+from src.config import FIGURES_DIR
 
 
 def create_output_folder():
 
-    os.makedirs(
-        "../results/figures",
+    FIGURES_DIR.mkdir(
+        parents=True,
         exist_ok=True
     )
 

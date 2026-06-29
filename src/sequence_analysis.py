@@ -1,28 +1,20 @@
 from Bio.Seq import Seq
+from collections import Counter
 
 
-def calculate_length(sequence):
+def calculate_length(sequence: str) -> int:
     """
-    Calculates the number of amino acids in a protein sequence.
+    Returns protein sequence length.
     """
 
     return len(sequence)
 
 
-def calculate_amino_acid_composition(sequence):
+def calculate_amino_acid_composition(sequence: str) -> dict:
     """
-    Calculates the frequency of each amino acid.
+    Calculates amino acid frequency.
     """
 
-    amino_acids = {}
-
-    for amino_acid in sequence:
-
-        if amino_acid in amino_acids:
-            amino_acids[amino_acid] += 1
-
-        else:
-            amino_acids[amino_acid] = 1
-
-
-    return amino_acids
+    return dict(
+        Counter(sequence)
+    )

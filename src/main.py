@@ -1,96 +1,53 @@
 from Bio import SeqIO
 
-from report import generate_report
+from sequence_analysis import *
+from physicochemical import *
+from report import *
+from visualization import *
 
-from physicochemical import (
-    calculate_molecular_weight,
-    calculate_isoelectric_point,
-    calculate_hydrophobicity
-)
-
-from sequence_analysis import (
-    calculate_length,
-    calculate_amino_acid_composition
-)
-
-from visualization import (
-    plot_amino_acid_composition
-)
+from config import DATA_DIR
 
 
-fasta_file = "../data/example.fasta"
+def main():
+
+    fasta = DATA_DIR / "example.fasta"
 
 
-protein = SeqIO.read(
-    fasta_file,
-    "fasta"
-)
+    protein = SeqIO.read(
+        fasta,
+        "fasta"
+    )
 
 
-sequence = protein.seq
+    sequence = str(protein.seq)
 
 
-print("Protein ID:")
-print(protein.id)
+    length = calculate_length(sequence)
+
+    composition = calculate_amino_acid_composition(sequence)
 
 
-print()
+    weight = calculate_molecular_weight(sequence)
+
+    pI = calculate_isoelectric_point(sequence)
+
+    hydro = calculate_hydrophobicity(sequence)
 
 
-print("Length:")
-
-length = calculate_length(sequence)
-
-print(length)
-
-
-print()
-
-
-print("Amino acid composition:")
-
-composition = calculate_amino_acid_composition(sequence)
-
-plot_amino_acid_composition(
-    composition
-)
-
-print(composition)
-
-print()
+    generate_report(
+        protein.id,
+        length,
+        weight,
+        pI,
+        hydro
+    )
 
 
-print("Physicochemical properties:")
+    plot_amino_acid_composition(
+        composition
+    )
 
 
-weight = calculate_molecular_weight(sequence)
 
-print(
-    "Molecular weight:",
-    round(weight, 2),
-    "Da"
-)
-
-
-pI = calculate_isoelectric_point(sequence)
-
-print(
-    "Isoelectric point:",
-    round(pI, 2)
-)
-
-
-hydro = calculate_hydrophobicity(sequence)
-
-print(
-    "Hydrophobicity (GRAVY):",
-    round(hydro, 3)
-)
-
-generate_report(
-    protein.id,
-    length,
-    weight,
-    pI,
-    hydro
-)
+if __name__ == "__main__":
+    main()

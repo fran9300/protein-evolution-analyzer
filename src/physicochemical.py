@@ -2,29 +2,29 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 
 
-def calculate_molecular_weight(sequence):
+def calculate_molecular_weight(sequence: str) -> float:
     """
     Calculates protein molecular weight in Daltons.
     """
 
-    analysis = ProteinAnalysis(str(sequence))
+    analysis = ProteinAnalysis(sequence)
 
     return analysis.molecular_weight()
 
 
 
-def calculate_isoelectric_point(sequence):
+def calculate_isoelectric_point(sequence: str) -> float:
     """
     Calculates theoretical isoelectric point (pI).
     """
 
-    analysis = ProteinAnalysis(str(sequence))
+    analysis = ProteinAnalysis(sequence)
 
     return analysis.isoelectric_point()
 
 
 
-def calculate_hydrophobicity(sequence):
+def calculate_hydrophobicity(sequence: str) -> float:
     """
     Calculates GRAVY hydrophobicity score.
 
@@ -35,6 +35,6 @@ def calculate_hydrophobicity(sequence):
     more hydrophilic
     """
 
-    analysis = ProteinAnalysis(str(sequence))
+    analysis = ProteinAnalysis(sequence)
 
     return analysis.gravy()
