@@ -6,7 +6,8 @@ from src.reports.json_report import generate_json_report
 from src.visualization.plots import (
     plot_amino_acid_composition,
     plot_hydrophobicity_profile,
-    plot_hydrophobicity_comparison
+    plot_hydrophobicity_comparison,
+    plot_secondary_structure_fraction
 )
 
 
@@ -110,6 +111,11 @@ def generate_outputs(
 
         results.window_profile
 
+    )
+
+
+    plot_secondary_structure_fraction(
+        results.secondary_structure
     )
 
 

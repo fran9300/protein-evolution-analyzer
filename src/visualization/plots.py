@@ -273,3 +273,65 @@ def plot_hydrophobicity_comparison(
         "Hydrophobicity comparison generated: %s",
         output_file
     )
+
+
+
+def plot_secondary_structure_fraction(structure_fraction: dict):
+
+    """
+    Generates secondary structure composition plot.
+    """
+
+    create_output_folder()
+
+
+    labels = list(
+        structure_fraction.keys()
+    )
+
+
+    values = list(
+        structure_fraction.values()
+    )
+
+
+    plt.figure(
+        figsize=FIGURE_SIZE
+    )
+
+
+    plt.pie(
+        values,
+        labels=labels,
+        autopct="%1.1f%%"
+    )
+
+
+    plt.title(
+        "Predicted Secondary Structure Composition"
+    )
+
+
+    output_file = (
+        FIGURES_DIR /
+        "secondary_structure_fraction.png"
+    )
+
+
+    plt.tight_layout()
+
+
+    plt.savefig(
+        output_file,
+        dpi=300,
+        bbox_inches="tight"
+    )
+
+
+    plt.close()
+
+
+    logger.info(
+        "Secondary structure plot generated: %s",
+        output_file
+    )
