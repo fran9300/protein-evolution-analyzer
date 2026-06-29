@@ -4,6 +4,7 @@ from sequence_analysis import *
 from physicochemical import *
 from report import *
 from visualization import *
+from json_report import generate_json_report
 
 from config import DATA_DIR
 
@@ -35,11 +36,24 @@ def main():
 
 
     generate_report(
+
         protein.id,
         length,
         weight,
         pI,
         hydro
+
+    )
+
+    generate_json_report(
+
+        protein.id,
+        length,
+        composition,
+        weight,
+        pI,
+        hydro
+
     )
 
 
