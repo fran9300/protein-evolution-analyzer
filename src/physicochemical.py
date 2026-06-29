@@ -67,3 +67,39 @@ def calculate_hydrophobicity_profile(sequence: str) -> list:
 
 
     return hydrophobicity_profile
+
+
+def calculate_sliding_window_hydrophobicity(
+        sequence: str,
+        window_size: int = 20
+) -> list:
+    """
+    Calculates average hydrophobicity
+    using a sliding window.
+    """
+
+
+    values = []
+
+
+    for i in range(
+        len(sequence) - window_size + 1
+    ):
+
+
+        window = sequence[
+            i:i + window_size
+        ]
+
+
+        analysis = ProteinAnalysis(
+            window
+        )
+
+
+        values.append(
+            analysis.gravy()
+        )
+
+
+    return values

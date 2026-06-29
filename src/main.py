@@ -4,15 +4,23 @@ from sequence_analysis import (
     calculate_length,
     calculate_amino_acid_composition
 )
+
 from physicochemical import (
     calculate_molecular_weight,
     calculate_isoelectric_point,
     calculate_hydrophobicity,
-    calculate_hydrophobicity_profile
+    calculate_hydrophobicity_profile,
+    calculate_sliding_window_hydrophobicity
 )
 
 from report import generate_report
-from visualization import plot_amino_acid_composition, plot_hydrophobicity_profile
+
+from visualization import (
+    plot_amino_acid_composition,
+    plot_hydrophobicity_profile,
+    plot_hydrophobicity_comparison
+)
+
 from json_report import generate_json_report
 
 from validation import (
@@ -22,13 +30,13 @@ from validation import (
     remove_unknown_residues
 )
 
-from config import DATA_DIR
+from config import FASTA_PATH
 
 
 
 def main():
 
-    fasta = DATA_DIR / "example.fasta"
+    fasta = FASTA_PATH
 
 
     protein = SeqIO.read(
@@ -38,6 +46,7 @@ def main():
 
 
     sequence = str(protein.seq)
+
 
 
     print("=" * 40)
@@ -62,7 +71,10 @@ def main():
 
 
 
+    # =========================
     # Validation
+    # =========================
+
 
     if not validate_sequence(sequence):
 
@@ -77,6 +89,7 @@ def main():
 
 
     print("Sequence quality:")
+
 
     print(
         "Unknown residues:",
@@ -95,20 +108,27 @@ def main():
 
 
 
-    # Clean sequence for physicochemical analysis
-
     clean_sequence = remove_unknown_residues(sequence)
 
 
 
+    # =========================
     # Sequence analysis
+    # =========================
 
-    length = calculate_length(clean_sequence)
 
-    composition = calculate_amino_acid_composition(sequence)
+    length = calculate_length(
+        clean_sequence
+    )
+
+
+    composition = calculate_amino_acid_composition(
+        sequence
+    )
 
 
     print("Sequence analysis:")
+
 
     print(
         "Length:",
@@ -121,6 +141,7 @@ def main():
         "Amino acid composition:"
     )
 
+
     print(
         composition
     )
@@ -130,45 +151,82 @@ def main():
 
 
 
+    # =========================
     # Physicochemical properties
+    # =========================
 
-    weight = calculate_molecular_weight(clean_sequence)
 
-    pI = calculate_isoelectric_point(clean_sequence)
+    weight = calculate_molecular_weight(
+        clean_sequence
+    )
 
-    hydro = calculate_hydrophobicity(clean_sequence)
+
+    pI = calculate_isoelectric_point(
+        clean_sequence
+    )
+
+
+    hydro = calculate_hydrophobicity(
+        clean_sequence
+    )
+
 
     hydro_profile = calculate_hydrophobicity_profile(
         clean_sequence
     )
+
+
+    window_profile = calculate_sliding_window_hydrophobicity(
+        clean_sequence,
+        window_size=20
+    )
+
+
 
     print("Physicochemical properties:")
 
 
     print(
         "Molecular weight:",
-        round(weight,2),
+        round(weight, 2),
         "Da"
     )
 
 
     print(
         "Isoelectric point:",
-        round(pI,2)
+        round(pI, 2)
     )
 
 
     print(
         "Hydrophobicity (GRAVY):",
-        round(hydro,3)
+        round(hydro, 3)
     )
 
-    print(
-        "Hydrophobicity profile:"
-    )
+
+    print()
+
 
     print(
-        hydro_profile
+        "Hydrophobicity profile calculated:"
+    )
+
+
+    print(
+        len(hydro_profile),
+        "residue values"
+    )
+
+
+    print(
+        "Sliding window profile calculated:"
+    )
+
+
+    print(
+        len(window_profile),
+        "window values"
     )
 
 
@@ -176,7 +234,10 @@ def main():
 
 
 
-    # Generate outputs
+    # =========================
+    # Reports
+    # =========================
+
 
     generate_report(
 
@@ -189,6 +250,8 @@ def main():
         hydro
 
     )
+
+
 
     generate_json_report(
 
@@ -204,22 +267,43 @@ def main():
     )
 
 
+
+    # =========================
+    # Visualizations
+    # =========================
+
+
     plot_amino_acid_composition(
         composition
     )
 
+
     plot_hydrophobicity_profile(
-        hydro_profile
+        window_profile
     )
+
+
+    plot_hydrophobicity_comparison(
+        hydro_profile,
+        window_profile,
+        window_size=20
+    )
+
 
 
     print()
 
-    print("Analysis completed successfully")
+
+    print(
+        "Analysis completed successfully"
+    )
+
 
     print("=" * 40)
 
 
 
+
 if __name__ == "__main__":
+
     main()

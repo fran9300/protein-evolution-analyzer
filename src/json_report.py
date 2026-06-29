@@ -1,4 +1,5 @@
 import json
+import re
 
 from config import RESULTS_DIR
 
@@ -68,11 +69,15 @@ def generate_json_report(
 
     }
 
-
+    safe_protein_id = re.sub(
+        r'[\\/*?:"<>|]',
+        "_",
+        protein_id
+    )
 
     output_file = (
-        RESULTS_DIR /
-        f"{protein_id}_report.json"
+            RESULTS_DIR /
+            f"{safe_protein_id}_report.json"
     )
 
 
