@@ -13,6 +13,10 @@ from sequence_analysis import (
     calculate_amino_acid_composition
 )
 
+from visualization import (
+    plot_amino_acid_composition
+)
+
 
 fasta_file = "../data/example.fasta"
 
@@ -46,6 +50,10 @@ print()
 print("Amino acid composition:")
 
 composition = calculate_amino_acid_composition(sequence)
+
+plot_amino_acid_composition(
+    composition
+)
 
 print(composition)
 
