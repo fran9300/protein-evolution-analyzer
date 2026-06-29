@@ -2,7 +2,12 @@ from src.services.protein_service import analyze_sequence
 from src.services.output_service import generate_outputs
 from src.services.fasta_service import load_protein_sequence
 
+from src.config import FASTA_PATH
+
 from src.exceptions import ProteinAnalysisError, InvalidSequenceError
+
+from src.utils.logger import setup_logging
+import logging
 
 from src.utils.display import (
     print_header,
@@ -14,11 +19,13 @@ from src.utils.display import (
 )
 
 
-
 def main():
 
+    setup_logging()
 
-    protein = load_protein_sequence()
+    protein = load_protein_sequence(
+        FASTA_PATH
+    )
 
 
     sequence = str(protein.seq)
@@ -40,10 +47,15 @@ def main():
         )
 
 
+
     except InvalidSequenceError as error:
 
-        print(
-            f"Analysis failed: {error}"
+        logging.error(
+
+            "Protein analysis failed: %s",
+
+            error
+
         )
 
         return

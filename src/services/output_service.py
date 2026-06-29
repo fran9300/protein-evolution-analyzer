@@ -1,3 +1,5 @@
+import logging
+
 from src.reports.csv_report import generate_report
 from src.reports.json_report import generate_json_report
 
@@ -8,11 +10,20 @@ from src.visualization.plots import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 
 def generate_outputs(
         protein_id,
         analysis
 ):
+
+
+    logger.info(
+        "Generating outputs for %s",
+        protein_id
+    )
 
 
     results = analysis.protein_result
@@ -62,13 +73,19 @@ def generate_outputs(
 
 
     plot_amino_acid_composition(
+
         results.composition
+
     )
+
 
 
     plot_hydrophobicity_profile(
+
         results.hydro_profile
+
     )
+
 
 
     plot_hydrophobicity_comparison(
@@ -77,4 +94,10 @@ def generate_outputs(
 
         results.window_profile
 
+    )
+
+
+
+    logger.info(
+        "Outputs generated successfully"
     )

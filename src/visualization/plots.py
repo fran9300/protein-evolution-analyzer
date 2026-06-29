@@ -1,7 +1,15 @@
+import logging
+
 import matplotlib.pyplot as plt
 
 from src.config import FIGURES_DIR
-from src.constants import HYDROPHOBICITY_WINDOW_SIZE, FIGURE_WIDTH, FIGURE_HEIGHT
+from src.constants import (
+    HYDROPHOBICITY_WINDOW_SIZE,
+    FIGURE_SIZE
+)
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_output_folder():
@@ -10,6 +18,7 @@ def create_output_folder():
         parents=True,
         exist_ok=True
     )
+
 
 
 def plot_amino_acid_composition(composition):
@@ -22,7 +31,9 @@ def plot_amino_acid_composition(composition):
     counts = list(composition.values())
 
 
-    plt.figure(figsize=(FIGURE_WIDTH,FIGURE_HEIGHT))
+    plt.figure(
+        figsize=FIGURE_SIZE
+    )
 
 
     plt.bar(
@@ -35,18 +46,30 @@ def plot_amino_acid_composition(composition):
         "Amino acid"
     )
 
+
     plt.ylabel(
         "Frequency"
     )
+
 
     plt.title(
         "Amino Acid Composition"
     )
 
-    output_file = (
-            FIGURES_DIR /
-            "amino_acid_composition.png"
+
+    plt.grid(
+        True
     )
+
+
+    output_file = (
+        FIGURES_DIR /
+        "amino_acid_composition.png"
+    )
+
+
+    plt.tight_layout()
+
 
     plt.savefig(
         output_file,
@@ -58,17 +81,21 @@ def plot_amino_acid_composition(composition):
     plt.close()
 
 
+    logger.info(
+        "Amino acid composition generated: %s",
+        output_file
+    )
+
+
 
 def plot_hydrophobicity_profile(profile: list):
+
     """
     Generates hydrophobicity profile plot.
     """
 
 
-    FIGURES_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    create_output_folder()
 
 
     positions = range(
@@ -78,7 +105,7 @@ def plot_hydrophobicity_profile(profile: list):
 
 
     plt.figure(
-        figsize=(FIGURE_WIDTH,FIGURE_HEIGHT)
+        figsize=FIGURE_SIZE
     )
 
 
@@ -103,10 +130,18 @@ def plot_hydrophobicity_profile(profile: list):
     )
 
 
+    plt.grid(
+        True
+    )
+
+
     output_file = (
         FIGURES_DIR /
         "hydrophobicity_profile.png"
     )
+
+
+    plt.tight_layout()
 
 
     plt.savefig(
@@ -119,9 +154,11 @@ def plot_hydrophobicity_profile(profile: list):
     plt.close()
 
 
-    print(
-        f"Hydrophobicity profile generated: {output_file}"
+    logger.info(
+        "Hydrophobicity profile generated: %s",
+        output_file
     )
+
 
 
 def plot_hydrophobicity_comparison(
@@ -137,18 +174,15 @@ def plot_hydrophobicity_comparison(
     """
 
 
-    FIGURES_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    create_output_folder()
+
 
 
     plt.figure(
-        figsize=(FIGURE_WIDTH,FIGURE_HEIGHT)
+        figsize=FIGURE_SIZE
     )
 
 
-    # Perfil por residuo
 
     positions = range(
         1,
@@ -156,14 +190,19 @@ def plot_hydrophobicity_comparison(
     )
 
 
+
+    # Raw residue profile
+
     plt.plot(
         positions,
         profile,
+        alpha=0.3,
         label="Residue by residue"
     )
 
 
-    # Sliding window
+
+    # Sliding window profile
 
     window_positions = range(
         window_size,
@@ -174,14 +213,17 @@ def plot_hydrophobicity_comparison(
     plt.plot(
         window_positions,
         window_profile,
+        linewidth=2,
         label=f"Sliding window ({window_size})"
     )
+
 
 
     plt.axhline(
         0,
         linestyle="--"
     )
+
 
 
     plt.xlabel(
@@ -202,11 +244,19 @@ def plot_hydrophobicity_comparison(
     plt.legend()
 
 
+    plt.grid(
+        True
+    )
+
+
 
     output_file = (
         FIGURES_DIR /
         "hydrophobicity_comparison.png"
     )
+
+
+    plt.tight_layout()
 
 
     plt.savefig(
@@ -219,6 +269,7 @@ def plot_hydrophobicity_comparison(
     plt.close()
 
 
-    print(
-        f"Hydrophobicity comparison generated: {output_file}"
+    logger.info(
+        "Hydrophobicity comparison generated: %s",
+        output_file
     )

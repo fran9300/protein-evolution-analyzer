@@ -1,26 +1,51 @@
-import pytest
+import logging
 
-from src.services.fasta_service import load_protein_sequence
+from Bio import SeqIO
+
+from src.config import FASTA_PATH
+from src.constants import FASTA_FORMAT
 from src.exceptions import FastaFileError
 
 
+logger = logging.getLogger(__name__)
 
-def test_load_fasta_error(monkeypatch):
 
+def load_protein_sequence(
+        fasta_path=FASTA_PATH
+):
 
-    def mock_read(*args, **kwargs):
+    try:
 
-        raise Exception(
-            "FASTA not found"
+        logger.info(
+            "Loading FASTA file: %s",
+            fasta_path
         )
 
 
-    monkeypatch.setattr(
-        "src.services.fasta_service.SeqIO.read",
-        mock_read
-    )
+        protein = SeqIO.read(
+            fasta_path,
+            FASTA_FORMAT
+        )
 
 
-    with pytest.raises(FastaFileError):
+        logger.info(
+            "FASTA loaded successfully: %s",
+            protein.id
+        )
 
-        load_protein_sequence()
+
+        return protein
+
+
+
+    except Exception as error:
+
+
+        logger.exception(
+            "Failed loading FASTA file"
+        )
+
+
+        raise FastaFileError(
+            f"Could not load FASTA file: {error}"
+        )

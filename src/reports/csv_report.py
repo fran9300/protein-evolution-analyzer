@@ -1,6 +1,10 @@
 import csv
+import logging
 
 from src.config import RESULTS_DIR
+
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -80,6 +84,7 @@ def generate_report(
 
 
 
-    print(
-        f"Report generated: {file_path}"
+    logger.info(
+        "CSV report generated: %s",
+        file_path
     )

@@ -1,4 +1,13 @@
-from src.constants import STANDARD_AMINO_ACIDS, UNKNOWN_AMINO_ACID
+import logging
+
+from src.constants import (
+    STANDARD_AMINO_ACIDS,
+    UNKNOWN_AMINO_ACID
+)
+
+
+logger = logging.getLogger(__name__)
+
 
 
 def validate_sequence(sequence: str) -> bool:
@@ -9,7 +18,9 @@ def validate_sequence(sequence: str) -> bool:
     Allows X as unknown amino acid.
     """
 
+
     sequence = sequence.upper()
+
 
 
     invalid_characters = (
@@ -19,17 +30,28 @@ def validate_sequence(sequence: str) -> bool:
     )
 
 
+
     if invalid_characters:
 
-        print(
-            "Invalid amino acids found:",
+
+        logger.warning(
+            "Invalid amino acids found: %s",
             invalid_characters
         )
+
 
         return False
 
 
+
+    logger.info(
+        "Protein sequence validation successful"
+    )
+
+
     return True
+
+
 
 
 
@@ -39,7 +61,12 @@ def count_unknown_residues(sequence: str) -> int:
     Counts unknown amino acids.
     """
 
-    return sequence.upper().count("X")
+
+    return sequence.upper().count(
+        UNKNOWN_AMINO_ACID
+    )
+
+
 
 
 
@@ -49,12 +76,34 @@ def calculate_unknown_percentage(sequence: str) -> float:
     Calculates percentage of unknown residues.
     """
 
-    unknown = count_unknown_residues(sequence)
+
+    if not sequence:
+
+        return 0.0
 
 
-    return (
+
+    unknown = count_unknown_residues(
+        sequence
+    )
+
+
+    percentage = (
         unknown / len(sequence)
     ) * 100
+
+
+
+    logger.debug(
+        "Unknown residue percentage calculated: %.2f%%",
+        percentage
+    )
+
+
+    return percentage
+
+
+
 
 
 def remove_unknown_residues(sequence: str) -> str:
@@ -64,4 +113,26 @@ def remove_unknown_residues(sequence: str) -> str:
     for physicochemical calculations.
     """
 
-    return sequence.upper().replace("X", "")
+
+    cleaned_sequence = sequence.upper().replace(
+        UNKNOWN_AMINO_ACID,
+        ""
+    )
+
+
+    removed = (
+        len(sequence)
+        -
+        len(cleaned_sequence)
+    )
+
+
+    if removed > 0:
+
+        logger.info(
+            "Removed %s unknown residues",
+            removed
+        )
+
+
+    return cleaned_sequence
