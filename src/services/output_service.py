@@ -1,7 +1,9 @@
 import logging
 
 from src.reports.csv_report import generate_report
+from src.reports.dashboard_json import generate_dashboard_json
 from src.reports.json_report import generate_json_report
+from src.services.dashboard_service import build_dashboard_result
 
 from src.visualization.plots import (
     plot_amino_acid_composition,
@@ -89,6 +91,15 @@ def generate_outputs(
 
         results.aliphatic_index
 
+    )
+
+    dashboard = build_dashboard_result(
+        protein_id,
+        analysis
+    )
+
+    generate_dashboard_json(
+        dashboard
     )
 
 
