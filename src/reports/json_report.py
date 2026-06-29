@@ -17,7 +17,11 @@ def generate_json_report(
         unknown_percentage,
         molecular_weight,
         isoelectric_point,
+
         hydrophobicity,
+        hydro_profile,
+        window_profile,
+
         instability_index,
         extinction_coefficient,
         secondary_structure,
@@ -40,8 +44,11 @@ def generate_json_report(
 
     report = {
 
-        "protein": protein_id,
+        "protein": {
 
+            "id": protein_id
+
+        },
 
         "sequence_quality": {
 
@@ -63,19 +70,47 @@ def generate_json_report(
 
         "physicochemical_properties": {
 
-            "molecular_weight": molecular_weight,
+            "molecular_weight": round(molecular_weight, 2),
 
-            "isoelectric_point": isoelectric_point,
+            "isoelectric_point":  round(isoelectric_point,2),
 
-            "hydrophobicity": hydrophobicity,
+            "hydrophobicity_analysis": {
 
-            "instability_index": instability_index,
+                "average": round(
+                    hydrophobicity,
+                    2
+                ),
+
+                "profile": hydro_profile,
+
+                "sliding_window": window_profile
+
+            },
+
+            "instability_index":  round(instability_index, 2),
 
             "extinction_coefficient": extinction_coefficient,
 
-            "secondary_structure": secondary_structure,
+            "secondary_structure": {
 
-            "aliphatic_index": aliphatic_index
+            "alpha_helix_percentage": round(
+                secondary_structure["alpha_helix"] * 100,
+                2
+                ),
+
+            "turn_percentage": round(
+                secondary_structure["turn"] * 100,
+                2
+                ),
+
+            "beta_sheet_percentage": round(
+                secondary_structure["beta_sheet"] * 100,
+                2
+                )
+
+            },
+
+            "aliphatic_index":  round(aliphatic_index, 3)
 
         }
 

@@ -77,6 +77,10 @@ def generate_outputs(
 
         results.hydrophobicity,
 
+        results.hydro_profile,
+
+        results.window_profile,
+
         results.instability_index,
 
         results.extinction_coefficient,

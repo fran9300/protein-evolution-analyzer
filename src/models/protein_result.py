@@ -14,6 +14,10 @@ class ProteinResult:
 
     hydrophobicity: float
 
+    hydro_profile: list
+
+    window_profile: list
+
     instability_index: float
 
     extinction_coefficient: dict
@@ -21,7 +25,3 @@ class ProteinResult:
     secondary_structure: dict
 
     aliphatic_index: float
-
-    hydro_profile: list
-
-    window_profile: list

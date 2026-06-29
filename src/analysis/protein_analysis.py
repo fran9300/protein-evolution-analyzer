@@ -90,6 +90,10 @@ def analyze_protein(
 
         hydrophobicity=hydrophobicity,
 
+        hydro_profile=hydro_profile,
+
+        window_profile=window_profile,
+
         instability_index=instability_index,
 
         extinction_coefficient=extinction_coefficient,
@@ -97,9 +101,5 @@ def analyze_protein(
         secondary_structure=secondary_structure,
 
         aliphatic_index=aliphatic_index,
-
-        hydro_profile=hydro_profile,
-
-        window_profile=window_profile
 
     )
