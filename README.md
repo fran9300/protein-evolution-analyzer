@@ -20,16 +20,16 @@ This project is responsible for protein sequence validation, physicochemical ana
 
 ## Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Project Architecture](#-project-architecture)
-- [Technologies](#-technologies)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [API Mode](#-api-mode)
-- [Testing](#-testing)
-- [Future Improvements](#-future-improvements)
-- [Author](#-author)
+- [Overview](#overview)
+- [Features](#features)
+- [Project Architecture](#project-architecture)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Mode](#api-mode)
+- [Testing](#testing)
+- [Future Improvements](#future-improvements)
+- [Author](#author)
 
 ---
 
