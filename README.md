@@ -1,118 +1,87 @@
-# 🧬 Protein Evolution Explorer
+# 🧬 Protein Evolution Analyzer
 
-[![Python Version](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://github.com/fran9300/protein-evolution-explorer)
+<p>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/python-3.13-blue.svg" alt="Python Version">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
+  </a>
+  <a href="https://github.com/fran9300/protein-evolution-analyzer">
+    <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="Tests">
+  </a>
+</p>
 
-Bioinformatics project developed in Python for protein sequence analysis from FASTA files.
+Bioinformatics analysis engine developed in Python for protein sequence processing from FASTA files.
 
-The application processes protein sequences and generates biological, physicochemical, and visualization outputs, following a modular architecture.
+This project is responsible for protein sequence validation, physicochemical analysis, and biological property calculation. It can be used independently through a local CLI or integrated as a service through FastAPI.
 
 ---
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-  - [Sequence Analysis](#sequence-analysis)
-  - [Physicochemical Analysis](#physicochemical-analysis)
-- [Outputs & Reports](#outputs--reports)
-  - [CSV Report](#csv-report)
-  - [JSON Report](#json-report)
-  - [Visualizations](#visualizations)
-- [Project Architecture](#project-architecture)
-- [Architecture Explanation](#architecture-explanation)
-  - [Analysis Layer](#analysis-layer)
-  - [Model Layer](#model-layer)
-  - [Service Layer](#service-layer)
-  - [Reports Layer](#reports-layer)
-  - [Visualization Layer](#visualization-layer)
-  - [Utils Layer](#utils-layer)
-- [Technologies](#technologies)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#️-usage)
-- [Testing](#testing)
-- [Error Handling](#error-handling)
-- [Logging](#logging)
-- [Example Analysis](#example-analysis)
-- [Future Improvements](#future-improvements)
-- [Author](#author)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Project Architecture](#-project-architecture)
+- [Technologies](#-technologies)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [API Mode](#-api-mode)
+- [Testing](#-testing)
+- [Future Improvements](#-future-improvements)
+- [Author](#-author)
+
+---
 
 ## Overview
 
-**Protein Evolution Explorer** is a bioinformatics analysis tool capable of:
+**Protein Evolution Analyzer** is the bioinformatics analysis component of the *Protein Evolution Explorer* platform.
 
-* Reading protein sequences from FASTA files.
-* Validating amino acid sequences and detecting unknown residues (`X`).
-* Cleaning sequences before downstream analysis.
-* Calculating advanced physicochemical properties.
-* Generating comprehensive reports and data visualizations.
+The system processes FASTA protein sequences and generates biological analysis data including:
 
-### Core Focus
-* **Clean Architecture & Separation of Responsibilities:** Modular design for scalability.
-* **Robustness:** Complete unit testing, global error handling, and structured logging.
-* **Reusability:** Highly decoupled services and utility layers.
+* **Sequence validation:** Detection of unknown amino acids and length verification.
+* **Physicochemical analysis:** Molecular weight, isoelectric point (pI), GRAVY index, instability, and aliphatic index.
+* **Structural properties:** Alpha helix, beta sheet, and turn percentages.
+
+The analyzer can run locally through a command-line interface or expose its functionality through a FastAPI service, which is currently integrated with a Spring Boot backend that manages persistence.
 
 ---
 
 ## Features
 
 ### Sequence Analysis
-* Protein sequence validation.
-* Amino acid composition calculation (absolute and percentage frequency).
-* Sequence length calculation.
-* Unknown residue detection (`X`) and percentage calculation.
+* FASTA file loading and validation.
+* Unknown amino acid detection.
+* Amino acid composition and sequence length calculation.
 
 ### Physicochemical Analysis
-* Molecular weight calculation.
-* Isoelectric point ($\text{pI}$) estimation.
-* GRAVY (Grand Average of Hydropathy) hydrophobicity index.
-* Residue-by-residue hydrophobicity profile.
-* Sliding window hydrophobicity analysis for identifying hydrophobic regions.
+* Molecular weight and Isoelectric point (pI) estimation.
+* GRAVY hydrophobicity index and hydrophobicity profile generation.
+* Instability and aliphatic index calculation.
 
-## Outputs & Reports
+### Structural Analysis
+* Alpha helix percentage.
+* Beta sheet percentage.
+* Turn percentage.
 
-The system generates structured data and visual charts under the `results/` directory:
+### Reports & Visualization
+Generates structured reports and data visualizations:
 
 ```text
 results/
+├── protein_report.json
 ├── protein_report.csv
-├── sp_P04637_P53_HUMAN_report.json
 └── figures/
     ├── amino_acid_composition.png
     ├── hydrophobicity_profile.png
     └── hydrophobicity_comparison.png
 ```
 
-### CSV Report
-
-Contains:
-* Protein identifier.
-* Sequence length.
-* Unknown residues.
-* Molecular weight.
-* Isoelectric point.
-* Hydrophobicity.
-
-### JSON Report
-
-Contains structured information:
-* Sequence quality.
-* Amino acid composition.
-* Physicochemical properties.
-
-### Visualizations
-
-Generated plots:
-* Amino acid composition.
-* Hydrophobicity profile.
-* Sliding window hydrophobicity comparison.
-
+---
 
 ## Project Architecture
 
-The project follows a layered structure:
+The analyzer follows a modular architecture separating biological analysis, API exposure, and local execution.
 
 ```text
 src/
@@ -120,244 +89,108 @@ src/
 │   ├── sequence.py
 │   ├── physicochemical.py
 │   └── protein_analysis.py
-│
+├── cli/
+│   └── analyze_local.py
+├── api/
+│   └── routes.py
 ├── models/
-│   ├── protein_result.py
-│   └── analysis_result.py
-│
 ├── services/
-│   ├── fasta_service.py
-│   ├── protein_service.py
-│   └── output_service.py
-│
 ├── reports/
-│   ├── csv_report.py
-│   └── json_report.py
-│
 ├── visualization/
-│   └── plots.py
-│
 ├── utils/
-│   ├── display.py
-│   └── logger.py
-│
 ├── exceptions.py
 ├── validation.py
-├── constants.py
-├── config.py
 └── main.py
 ```
 
+### Core Components
+
+* **Analysis Layer:** Responsible for FASTA processing, protein sequence calculations, and biological property extraction.
+* **CLI Layer:** Provides local execution for manual FASTA analysis, local experiments, and report generation.
+* **API Layer:** FastAPI service responsible for receiving analysis requests and returning structured protein analysis data to external applications (e.g., Spring Boot backend).
+
 ---
-
-## Architecture Explanation
-
-### Analysis Layer
-
-Responsible for biological calculations.
-
-Examples:
-* Sequence properties.
-* Hydrophobicity calculations.
-* Physicochemical analysis.
-
-### Model Layer
-
-Contains data structures used between components.
-
-Example: `ProteinResult`
-
-Stores:
-* Length
-* Composition
-* Weight
-* pI
-* Hydrophobicity data
-
-### Service Layer
-
-Contains application logic.
-
-Responsibilities:
-
-### FASTA Service
-* Loads protein sequences.
-
-### Protein Service
-Coordinates:
-* Validation
-* Cleaning
-* Analysis
-
-### Output Service
-Coordinates:
-* Reports
-* Graph generation
-
-### Reports Layer
-
-Responsible for exporting results.
-
-Formats:
-* CSV
-* JSON
-
-### Visualization Layer
-
-Responsible for generating biological plots using `matplotlib`.
-
-### Utils Layer
-
-Contains shared utilities:
-* Console output.
-* Logging configuration.
 
 ## Technologies
 
-### Language
-* Python 3.13
-
-### Libraries
-* Biopython
-* Matplotlib
-* Pytest
+* **Language:** Python 3.13
+* **Main Libraries:** Biopython, FastAPI, Pydantic, Matplotlib, Pandas, Pytest
+* **Bioinformatics:** FASTA processing, amino acid composition, and physicochemical property workflows.
+* **Development Tools:** Git, Virtual environments, REST APIs, Docker *(planned integration)*.
 
 ---
 
-## Requirements
-
-- Python >= 3.13
-- pip
-
 ## Installation
 
-Clone repository:
+1. **Clone the repository:**
 ```bash
-git clone https://github.com/fran9300/protein-evolution-explorer.git
+git clone https://github.com/fran9300/protein-evolution-analyzer.git
+cd protein-evolution-analyzer
 ```
 
-Move into project:
-```bash
-cd protein-evolution-explorer
-```
-
-Create virtual environment:
+2. **Create a virtual environment:**
 ```bash
 python -m venv .venv
 ```
 
-Activate environment:
+3. **Activate the environment:**
 * **Windows:**
-  ```bash
-  .venv\Scripts\activate
-  ```
-* **macOS / Linux:**
-  ```bash
-  source .venv/bin/activate
-  ```
+```bash
+.venv\Scripts\activate
+```
+* **Linux / macOS:**
+```bash
+source .venv/bin/activate
+```
 
-Install dependencies:
+4. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
 ---
 
-# ▶️ Usage
+## Usage
 
-Run application:
+### Local CLI Analysis
+To run the manual analysis pipeline, execute:
 ```bash
-python src/main.py
+python src/cli/analyze_local.py
 ```
+The CLI will load the FASTA file, validate the sequence, perform the protein analysis, and generate the corresponding reports and visualizations.
 
-The program will:
-1. Load FASTA sequence.
-2. Validate protein data.
-3. Perform analysis.
-4. Generate reports.
-5. Generate plots.
+---
+
+## API Mode
+
+To start the FastAPI service:
+```bash
+uvicorn src.main:app --reload
+```
+Once running, the interactive API documentation will be available at:
+ **http://localhost:8000/docs**
+
+> **Note:** This service is designed to be consumed by the Spring Boot backend as part of the ecosystem of the platform.
 
 ---
 
 ## Testing
 
-Run tests:
+To execute the test suite (includes sequence validation, property calculations, and error handling workflows), run:
 ```bash
 pytest
-```
-
-Current test coverage includes:
-* Validation tests.
-* Sequence analysis tests.
-* Physicochemical calculations.
-* Protein analysis.
-* FASTA loading.
-* Error handling.
-* Integration tests.
-
----
-
-## Error Handling
-
-The project includes custom exceptions.
-
-Example: `InvalidSequenceError`
-
-Used when:
-* Invalid amino acids are detected.
-* Protein sequences cannot be analyzed.
-
-Also: `FastaFileError`
-
-Used for FASTA loading problems.
-
----
-
-## Logging
-
-The application uses Python logging.
-
-Tracked events:
-* FASTA loading.
-* Sequence validation.
-* Protein analysis.
-* Report generation.
-* Visualization generation.
-
-Example:
-```text
-INFO | FASTA loaded successfully
-INFO | Protein physicochemical analysis completed
-INFO | JSON report generated
-```
-
----
-
-## Example Analysis
-
-### Input
-* `p53.fasta`
-
-### Output
-```text
-Protein ID:         sp|P04637|P53_HUMAN
-Length:             393 aa
-Molecular weight:   43652.71 Da
-Isoelectric point:  6.33
-Hydrophobicity:     -0.756
 ```
 
 ---
 
 ## Future Improvements
 
-Possible future additions:
-* [ ] Multiple FASTA file analysis.
-* [ ] Database integration.
-* [ ] Protein similarity comparison.
-* [ ] Evolutionary analysis.
-* [ ] Web interface.
-* [ ] Interactive plots.
+* [ ] Multiple FASTA files parallel processing.
+* [ ] Protein similarity comparison and alignment.
+* [ ] Evolutionary analysis workflows.
+* [ ] Database integration for caching results.
+* [ ] Advanced interactive visualizations.
+* [ ] Docker Compose deployment.
 
 ---
 
@@ -365,4 +198,4 @@ Possible future additions:
 
 **Francisco Kin**
 * Bioinformatics Student | Backend Development | Data Analysis
-* [GitHub Profile](https://github.com/fran9300)
+* **GitHub:** [@fran9300](https://github.com/fran9300)
