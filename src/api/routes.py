@@ -53,53 +53,59 @@ async def analyze(file: UploadFile = File(...)):
 
     protein = result.protein_result
 
-
-
     return {
-
 
         "protein": {
 
-
             "protein_id": record.id,
-
 
             "length": protein.length,
 
+            "molecular_weight": round(
+                protein.weight,
+                2
+            ),
 
-            "molecular_weight": protein.weight,
+            "pI": round(
+                protein.pI,
+                2
+            ),
 
+            "hydrophobicity": round(
+                protein.hydrophobicity,
+                3
+            ),
 
-            "pI": protein.pI,
+            "instability_index": round(
+                protein.instability_index,
+                2
+            ),
 
-
-            "hydrophobicity": protein.hydrophobicity,
-
-
-            "instability_index": protein.instability_index,
-
-
-            "aliphatic_index": protein.aliphatic_index
+            "aliphatic_index": round(
+                protein.aliphatic_index,
+                2
+            )
 
         },
 
-
         "composition": protein.composition,
-
 
         "structure": {
 
-
-            "alphaHelix":
+            "alphaHelix": round(
                 protein.secondary_structure["alpha_helix"] * 100,
+                2
+            ),
 
-
-            "turn":
+            "turn": round(
                 protein.secondary_structure["turn"] * 100,
+                2
+            ),
 
-
-            "betaSheet":
-                protein.secondary_structure["beta_sheet"] * 100
+            "betaSheet": round(
+                protein.secondary_structure["beta_sheet"] * 100,
+                2
+            )
 
         }
 
